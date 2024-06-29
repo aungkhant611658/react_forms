@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 export default function Signup() {
+  const [passwordsAreNotEqual, setPasswordsAreNotEqual] = useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -8,7 +12,11 @@ export default function Signup() {
     const data = Object.fromEntries(formData.entries());
     data.acquisition = acquisitionChannel;
 
-    console.log(data);
+    // confirm-passwordကို data arrayနဲ့ဘာလို့ခေါ်လဲဆိုရင် dash(-)ပါနေလို့ data.confirm-password ဒီလိုခေါ်လို့မရတာ။
+    if (data.password != data["confirm-password"]) {
+      setPasswordsAreNotEqual(true);
+      return;
+    }
 
     event.target.reset();
   };
@@ -20,13 +28,19 @@ export default function Signup() {
 
       <div className="control">
         <label htmlFor="email">Email</label>
-        <input id="email" type="email" name="email" />
+        <input id="email" type="email" name="email" required />
       </div>
 
       <div className="control-row">
         <div className="control">
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" />
+          <input
+            id="password"
+            type="password"
+            name="password"
+            minLength={6}
+            required
+          />
         </div>
 
         <div className="control">
@@ -36,6 +50,10 @@ export default function Signup() {
             type="password"
             name="confirm-password"
           />
+
+          <div className="control-error">
+            {passwordsAreNotEqual && <p>Passwords must match.</p>}
+          </div>
         </div>
       </div>
 
@@ -44,12 +62,12 @@ export default function Signup() {
       <div className="control-row">
         <div className="control">
           <label htmlFor="first-name">First Name</label>
-          <input type="text" id="first-name" name="first-name" />
+          <input type="text" id="first-name" name="first-name" required />
         </div>
 
         <div className="control">
           <label htmlFor="last-name">Last Name</label>
-          <input type="text" id="last-name" name="last-name" />
+          <input type="text" id="last-name" name="last-name" required />
         </div>
       </div>
 
@@ -94,8 +112,13 @@ export default function Signup() {
 
       <div className="control">
         <label htmlFor="terms-and-conditions">
-          <input type="checkbox" id="terms-and-conditions" name="terms" />I
-          agree to the terms and conditions
+          <input
+            type="checkbox"
+            id="terms-and-conditions"
+            name="terms"
+            required
+          />
+          I agree to the terms and conditions
         </label>
       </div>
 
