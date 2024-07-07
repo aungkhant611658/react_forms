@@ -12,7 +12,7 @@ export default function Signup() {
 
   const onSubmit = (data) => console.log(data);
 
-  console.log(errors);
+  // console.log(errors);
 
   const phoneValidate = (error) => {
     if (!error) return "";
